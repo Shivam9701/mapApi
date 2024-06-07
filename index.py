@@ -4,30 +4,18 @@ from utils import make_map
 from typing import Literal
 from typing import List, Optional
 from pydantic import BaseModel
-
-
-class Geometry(BaseModel):
-    type: str
-    coordinates: List[List[float]]
-
-
-class Properties(BaseModel):
-    name: Optional[str] = None
-
-
-class Feature(BaseModel):
-    type: str
-    geometry: Geometry
-    properties: Properties
-
-
-class GeoJSON(BaseModel):
-    type: str
-    features: List[Feature]
-
+from fastapi.middleware.cors import CORSMiddleware
 
 # Create the app
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get(
@@ -65,4 +53,3 @@ def read_root(
 
 if __name__ == "__main__":
     uvicorn.run("index:app", host="127.0.0.1", port=8000, reload=True)
- 
