@@ -2,9 +2,8 @@ from fastapi import FastAPI
 import uvicorn
 from utils import make_map
 from typing import Literal
-from typing import List, Optional
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 # Create the app
 app = FastAPI()
@@ -52,4 +51,6 @@ def read_root(
 
 
 if __name__ == "__main__":
-    uvicorn.run("index:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(
+        "index:app", host="127.0.0.1", port=int(os.getenv("PORT", 8000)), reload=True
+    )
